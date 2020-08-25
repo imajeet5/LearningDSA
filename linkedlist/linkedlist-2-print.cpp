@@ -11,17 +11,26 @@ public:
     Node(int data)
     {
         this->data = data;
-        next = NULL;
+        this->next = NULL;
     }
 };
 
 void printLL(Node *head)
 {
-    while (head != NULL)
+    Node *temp_itr = head;
+    while (temp_itr != NULL)
     {
-        cout << head->data << endl;
-        head = head->next;
+        cout << temp_itr->data << " ";
+        temp_itr = temp_itr->next;
     }
+    cout << endl;
+    temp_itr = head;
+    // while (temp_itr != NULL)
+    // {
+    //     cout << temp_itr->data << " ";
+    //     temp_itr = temp_itr->next;
+    // }
+    // cout << endl;
 }
 
 int main(int argc, char const *argv[])
@@ -38,6 +47,9 @@ int main(int argc, char const *argv[])
     n2.next = &n3;
     n3.next = &n4;
     n4.next = &n5;
+    
+    // Dynamically
+    
 
     printLL(head);
 
