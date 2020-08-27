@@ -101,12 +101,6 @@ int lengthLL(Node *head)
 
     return count;
 }
-int lenghtRecr(Node *head)
-{
-    if (head == NULL)
-        return 0;
-    return 1 + lenghtRecr(head->next);
-}
 
 // my implementation
 void printithNode(Node *head, int index)
@@ -152,21 +146,128 @@ void printIthNode2(Node *head, int i)
         cout << "Node does not exist" << endl;
 }
 
+Node *insertIthPosition(Node *head, int pos, int data)
+{
+    if (pos < 0)
+    {
+        cout << "Out of range" << endl;
+        return head;
+    }
+
+    Node *tempHead = head;
+
+    Node *newElement = new Node(data);
+    if (pos == 0)
+    {
+        newElement->next = head;
+        head = newElement;
+        return head;
+    }
+
+    while ((pos - 1) && tempHead)
+    {
+        tempHead = tempHead->next;
+        pos--;
+    }
+    if (tempHead)
+    {
+        // Node *beforeElement = tempHead;
+        // Node *afterElement = tempHead->next;
+        // beforeElement->next = newElement;
+        // newElement->next = afterElement;
+        newElement->next = tempHead->next;
+        tempHead->next = newElement;
+    }
+    else
+    {
+        cout << "Out of range" << endl;
+        delete newElement;
+    }
+    return head;
+}
+
+Node *deleteIthElement(Node *head, int pos)
+{
+    Node *current = head;
+    if (pos < 0)
+    {
+        return head;
+    }
+    if (pos == 0 && head)
+    {
+        Node *newHead = head->next;
+        head->next = NULL;
+        delete head;
+        return newHead;
+    }
+    while ((pos - 1) && current)
+    {
+        current = current->next;
+        pos--;
+    }
+    if (current && current->next)
+    {
+        Node *temp = current->next;
+        current->next = current->next->next;
+        temp->next = NULL;
+        delete temp;
+    }
+    else
+    {
+        cout << "Out of range" << endl;
+    }
+    return head;
+}
+
+bool isPresent(Node *head, int data)
+{
+    Node *curr = head;
+    while (curr)
+    {
+        if (curr->data == data)
+            return true;
+        curr = curr->next;
+    }
+    return false;
+};
+
+bool isPresentRecur(Node *head, int data)
+{
+    if (!head)
+    {
+        return false;
+    }
+    if (head->data == data)
+    {
+        return true;
+    }
+    return isPresentRecur(head->next, data);
+}
+
+Node *middleNode(Node *head)
+{
+    Node *slow = head;
+    Node *fast = head->next;
+    while (fast && fast->next)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    if (fast) //even
+    {
+        return slow->next;
+    }
+    return slow;
+}
+
 int main(int argc, char const *argv[])
 {
     Node *head1 = takeInput_tail();
-    Node *head2 = takeInput_head();
-
-    // Dynamically
+    int num = 1, index;
 
     printLL(head1);
-    printLL(head2);
-    cout << lenghtRecr(head1) << endl;
-    cout << lenghtRecr(head2) << endl;
-    int index = 0;
-    cout << "Enter index: " << endl;
-    cin >> index;
-    printIthNode2(head1, index);
+
+    cout << middleNode(head1)->data << endl;
 
     return 0;
 }
